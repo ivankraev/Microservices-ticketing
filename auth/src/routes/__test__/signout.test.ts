@@ -22,3 +22,12 @@ it("clears the cookie after signing out", async () => {
     "session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httponly"
   );
 });
+
+it("responds with null if not authenticated", async () => {
+  const res = await request(app)
+    .get("/api/users/currentuser")
+    .send()
+    .expect(200);
+
+  expect(res.body.currentUser).toEqual(null);
+});
