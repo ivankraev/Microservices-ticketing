@@ -2,7 +2,7 @@ import request from "supertest";
 import { app } from "../../app";
 
 const validEmail = "test@test.com";
-const correctPassword = "password";
+
 
 it("responds with details about the current user", async () => {
   const cookie = await global.signup();
