@@ -51,6 +51,7 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
+
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);
 };
