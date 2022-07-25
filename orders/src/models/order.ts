@@ -1,5 +1,20 @@
 import mongoose from "mongoose";
-import { OrderStatus } from "@myticketsorganisation/common";
+
+export enum OrderStatus {
+  // When the order has been created,
+  // but the ticket it is trying to order has not been reserved
+  Created = "created",
+  // The ticket the order is trying to reserve has already
+  // been reserved, or when the user has cancelled the order
+  // The order expires before payment
+  Canceled = "canceled",
+  // The order has succesfully reserved the ticket
+  AwaitingPayment = "awaiting:payment",
+  // The order has reserved the ticket and the user
+  // has provided payment succesfully
+  Complete = "complete",
+}
+
 import { TicketDoc } from "./ticket";
 
 interface OrderAttrs {
@@ -14,6 +29,7 @@ interface OrderDoc extends mongoose.Document {
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
+  version: number;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -50,7 +66,6 @@ const orderSchema = new mongoose.Schema(
     },
   }
 );
-
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);

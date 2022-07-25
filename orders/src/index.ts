@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { natsWrapper } from "./nats-wrapper";
 import { app } from "./app";
+import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
+import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
 
 const port = process.env.PORT || 3000;
 
@@ -18,7 +20,7 @@ const start = async () => {
   if (!process.env.MONGO_URI) {
     throw new Error("Mongo uri variable not provided");
   }
-  
+
   if (!process.env.NATS_CLIENT_ID) {
     throw new Error("Client id variable not provided");
   }
@@ -36,6 +38,9 @@ const start = async () => {
 
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());
+
+    new TicketCreatedListener(natsWrapper.client).listen();
+    new TicketUpdatedListener(natsWrapper.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to db");
