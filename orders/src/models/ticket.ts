@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { Order } from "./order";
 
 interface TicketAttrs {
-  id?: string;
+  id: string;
   title: string;
   price: number;
 }

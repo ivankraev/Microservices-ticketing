@@ -41,4 +41,19 @@ it("finds, updates and saves a ticket", async () => {
   expect(updatedTicket!.price).toEqual(data.price);
   expect(updatedTicket!.version).toEqual(data.version);
 });
-it("acks the message", async () => {});
+it("acks the message", async () => {
+  const { msg, data, listener } = await setup();
+  await listener.onMessage(data, msg);
+
+  expect(msg.ack).toHaveBeenCalled();
+});
+
+it("does not call ack if the event is out of order", async () => {
+  const { msg, data, listener } = await setup();
+  data.version = 10;
+  try {
+    await listener.onMessage(data, msg);
+  } catch (error) {}
+
+  expect(msg.ack).not.toHaveBeenCalled();
+});
