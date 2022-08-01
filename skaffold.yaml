@@ -40,3 +40,19 @@ build:
         manual:
           - src: "./orders/src/**/*.ts"
             dest: .
+    - image: gsdatabase/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "./expiration/src/**/*.ts"
+            dest: .
+    - image: gsdatabase/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "./payments/src/**/*.ts"
+            dest: .
