@@ -9,6 +9,8 @@ import { PaymentCreatedListener } from "./events/listeners/payment-created-liste
 const port = process.env.PORT || 3000;
 
 const start = async () => {
+  console.log("starting up ..");
+
   console.log(process.env.NATS_CLUSTER_ID, process.env.NATS_URL);
 
   if (!process.env.NATS_CLUSTER_ID) {

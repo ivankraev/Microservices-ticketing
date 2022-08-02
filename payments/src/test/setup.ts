@@ -26,10 +26,10 @@ beforeEach(async () => {
 
 // for some reasons 1 of the suits fail when closing mongo connection
 
-/* afterAll(async () => {
+afterAll(async () => {
   await mongo.stop();
   await mongoose.connection.close();
-}); */
+});
 
 global.signup = (id?: string) => {
   // build a JWT payload {id,email}
